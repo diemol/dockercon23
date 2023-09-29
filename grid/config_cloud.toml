@@ -20,5 +20,5 @@ video-image = "selenium/video:ffmpeg-4.3.1-20230926"
 url = "https://user:key@ondemand.us-west-1.saucelabs.com:443/wd/hub"
 status-endpoint = "/status"
 configs = [
-  "10", '{"browserName": "Safari", "platformName": "macOS 13"}'
+  "10", '{"browserName": "safari", "platformName": "macOS 13"}'
 ]
