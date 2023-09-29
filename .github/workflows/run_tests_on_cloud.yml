@@ -1,4 +1,4 @@
-name: Tests on Grid and Cloud
+name: Tests on Cloud
 
 on:
   workflow_dispatch:
@@ -19,11 +19,4 @@ jobs:
       - name: Create assets directory and change permissions
         run: cd grid && mkdir assets && sudo chown 1200:1201 assets
       - name: Build the docker-compose stack
-        run: docker compose -f docker-compose-cloud.yml up --abort-on-container-exit --build --timeout 30
-      - name: Upload test assets
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-assets
-          path: ./grid/assets/          
-          
+        run: docker compose -f docker-compose-cloud.yml up --abort-on-container-exit --build --timeout 30          
