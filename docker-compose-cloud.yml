@@ -30,7 +30,7 @@ services:
     environment:
       - SAUCE_USERNAME=${SAUCE_USERNAME}
       - SAUCE_ACCESS_KEY=${SAUCE_ACCESS_KEY}
-    command: --tunnel-identifier python-tests -f /tmp/sc.ready
+    command: --tunnel-name python-tests -f /tmp/sc.ready
     volumes:
       - sauce-connect-volume:/tmp
 
