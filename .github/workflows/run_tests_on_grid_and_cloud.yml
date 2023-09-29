@@ -1,0 +1,28 @@
+name: Tests on Grid and Cloud
+
+on:
+  workflow_dispatch:
+
+env:
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}        
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: User SauceUser and SauceApiKey
+        run: sed -i -e "s/user:key/$SAUCE_USERNAME:$SAUCE_ACCESS_KEY/g" ./grid/config_cloud.toml
+      - name: Create assets directory and change permissions
+        run: cd grid && mkdir assets && sudo chown 1200:1201 assets
+      - name: Build the docker-compose stack
+        run: docker compose -f docker-compose-cloud.yml up --abort-on-container-exit --build --timeout 30          
+      - name: Upload test assets
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-assets
+          path: ./grid/assets/        
