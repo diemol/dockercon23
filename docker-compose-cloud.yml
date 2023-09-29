@@ -1,0 +1,39 @@
+# How to run this? -> docker compose -f docker-compose-cloud.yml up --build --abort-on-container-exit
+# Clean up? -> docker compose -f docker-compose-cloud.yml down
+version: '3'
+include:
+  - ./grid/docker-compose-selenium-cloud.yml 
+services:
+  todo_app:
+    image: todo_app
+    build:
+      context: ./sample_web_app
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+
+  python_tests:
+    image: python_tests
+    build:
+      context: ./tests
+      dockerfile: ./Dockerfile
+    environment:
+      - SUT_ENDPOINT=http://todo_app:3000
+      - SE_ENDPOINT=selenium-hub:4444
+      - SAUCE_TUNNEL_NAME=python-tests
+    command: ["./wait-for-grid.sh", "./wait-for-sc.sh", "pipenv", "run", "tests"]
+    volumes:
+      - sauce-connect-volume:/tmp
+
+  sauce_connect:
+    image: saucelabs/sauce-connect
+    environment:
+      - SAUCE_USERNAME=${SAUCE_USERNAME}
+      - SAUCE_ACCESS_KEY=${SAUCE_ACCESS_KEY}
+    command: --tunnel-identifier python-tests -f /tmp/sc.ready
+    volumes:
+      - sauce-connect-volume:/tmp
+
+volumes:
+  sauce-connect-volume:
+

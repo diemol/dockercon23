@@ -1,0 +1,22 @@
+# How to run this? -> docker compose -f docker-compose-local.yml up --build --abort-on-container-exit
+# Clean up? -> docker compose -f docker-compose-local.yml down
+version: '3'
+include:
+  - ./grid/docker-compose-selenium-grid.yml 
+services:
+  todo_app:
+    image: todo_app
+    build:
+      context: ./sample_web_app
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+
+  python_tests:
+    image: python_tests
+    build:
+      context: ./tests
+      dockerfile: ./Dockerfile
+    environment:
+      - SUT_ENDPOINT=http://todo_app:3000
+      - SE_ENDPOINT=selenium-hub:4444

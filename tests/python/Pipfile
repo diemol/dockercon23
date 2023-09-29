@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = "==7.4.2"
+pytest-xdist = "==3.3.1"
+selenium = "==4.13.0"
+Faker = "==19.6.2"
+requests= "==2.31.0"
+
+[scripts]
+tests = "pytest -n8 tests.py"
+
+[requires]
+python_version = "3.11"

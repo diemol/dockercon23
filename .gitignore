@@ -1,0 +1,4 @@
+node_modules
+todo.db
+# If you are on OSX
+.DS_Store

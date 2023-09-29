@@ -1,0 +1,30 @@
+[docker]
+# Configs have a mapping between the Docker image to use and the capabilities that need to be matched to
+# start a container with the given image.
+configs = [
+    "selenium/standalone-firefox:4.13.0-20230926", '{"browserName": "firefox", "platformName": "linux"}',
+    "selenium/standalone-chrome:4.13.0-20230926", '{"browserName": "chrome", "platformName": "linux"}',
+    "selenium/standalone-edge:4.13.0-20230926", '{"browserName": "MicrosoftEdge", "platformName": "linux"}'
+    ]
+
+# URL for connecting to the docker daemon
+# host.docker.internal works for macOS and Windows.
+# Linux could use --net=host in the `docker run` instruction or 172.17.0.1 in the URI below.
+# To have Docker listening through tcp on macOS, install socat and run the following command
+# socat -4 TCP-LISTEN:2375,fork UNIX-CONNECT:/var/run/docker.sock
+url = "http://127.0.0.1:2375"
+# Docker image used for video recording
+video-image = "selenium/video:ffmpeg-4.3.1-20230926"
+
+[relay]
+url = "https://user:key@ondemand.us-west-1.saucelabs.com:443/wd/hub"
+status-endpoint = "/status"
+configs = [
+  "10", '{"browserName": "chrome", "platformName": "Windows 11"}',
+  "10", '{"browserName": "firefox", "platformName": "Windows 11"}',
+  "10", '{"browserName": "MicrosoftEdge", "platformName": "Windows 11"}',
+  "10", '{"browserName": "chrome", "platformName": "macOS 13"}',
+  "10", '{"browserName": "firefox", "platformName": "macOS 13"}',
+  "10", '{"browserName": "MicrosoftEdge", "platformName": "macOS 13"}',
+  "10", '{"browserName": "Safari", "platformName": "macOS 13"}'
+]
