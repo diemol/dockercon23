@@ -37,15 +37,13 @@ build_tag = f'dockercon23_{datetime.now().strftime("%d.%m.%Y-%H:%M")}'
 
 desktop_browsers = []
 
+platform = 'Linux'
+desktop_browsers.append(edge_options(platform))
+desktop_browsers.append(chrome_options(platform))
+desktop_browsers.append(firefox_options(platform))
+
 if tunnel_name is not None:
     desktop_browsers.append(safari_options('macOS 13'))
-    desktop_browsers.append(firefox_options('Linux'))
-    desktop_browsers.append(chrome_options('macOS 13'))
-    desktop_browsers.append(edge_options('Windows 11'))
-else:
-    platform = 'Linux'
-    desktop_browsers.append(edge_options(platform))
-    desktop_browsers.append(chrome_options(platform))
 
 
 @pytest.fixture(params=desktop_browsers)
